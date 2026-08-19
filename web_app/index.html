@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GenAI Finger Millet Pathology Studio - Smart Farming</title>
+  <meta name="description" content="Hybrid Deep Learning (EfficientNet-ViT) & Explainable AI (Grad-CAM) Finger Millet Disease Diagnostic Engine with GenAI Agronomic Advisory Copilot.">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Navbar Navigation Header -->
+  <header class="navbar" id="mainHeader">
+    <div class="brand">
+      <div class="brand-icon">🌾</div>
+      <div>
+        <h1 class="brand-title" data-i18n="appTitle">GenAI Finger Millet Pathology Studio</h1>
+        <p class="brand-sub" data-i18n="subtitle">Hybrid Deep Learning (EfficientNet + ViT), Explainable AI (Grad-CAM), and GenAI Agronomic Advisory</p>
+      </div>
+    </div>
+
+    <div class="nav-controls">
+      <select id="langSelect" class="lang-select" aria-label="Select Language">
+        <option value="en">🌐 English</option>
+        <option value="hi">🌐 हिंदी (Hindi)</option>
+        <option value="kn">🌐 ಕನ್ನಡ (Kannada)</option>
+        <option value="te">🌐 తెలుగు (Telugu)</option>
+        <option value="ta">🌐 தமிழ் (Tamil)</option>
+        <option value="mr">🌐 मराठी (Marathi)</option>
+      </select>
+    </div>
+  </header>
+
+  <!-- Main Application Body Container -->
+  <main class="app-container">
+
+    <!-- Navigation Tabs -->
+    <nav class="tabs-header" id="navigationTabs">
+      <button class="tab-btn active" data-tab="tabStudio" id="btnTabStudio">
+        🔍 <span data-i18n="uploadTab">Diagnostic Studio</span>
+      </button>
+      <button class="tab-btn" data-tab="tabArchitecture" id="btnTabArchitecture">
+        ⚡ <span data-i18n="architectureTab">Model Architecture & XAI</span>
+      </button>
+    </nav>
+
+    <!-- TAB 1: DIAGNOSTIC STUDIO & GENAI ADVISORY -->
+    <section id="tabStudio" class="tab-content" style="display: block;">
+      <div class="studio-grid">
+
+        <!-- Left Column: Input Studio & Visualizer -->
+        <div class="left-col">
+
+          <!-- Dropzone Card -->
+          <div class="glass-panel" id="uploadPanel">
+            <div class="panel-header">
+              <h2 class="panel-title">📸 Leaf Diagnostic Input Studio</h2>
+              <span class="badge badge-low">Live AI Active</span>
+            </div>
+
+            <div class="drop-zone" id="dropZone">
+              <div class="drop-icon">🍃</div>
+              <p style="font-weight: 600; margin-bottom: 0.25rem;" data-i18n="dragDropText">Drag & Drop Finger Millet Leaf Image</p>
+              <p style="font-size: 0.8rem; color: var(--text-muted);" data-i18n="orClickText">or select from verified field disease samples below</p>
+              <input type="file" id="fileInput" accept="image/*" style="display: none;">
+            </div>
+
+            <!-- Field Presets -->
+            <p style="font-size: 0.85rem; font-weight: 700; color: var(--accent-light); margin-bottom: 0.5rem;" data-i18n="presetHeading">Verified Field Leaf Presets:</p>
+            <div class="preset-grid" id="presetContainer">
+              <div class="preset-card active" data-disease="blast">
+                <div style="font-size: 1.5rem; margin-bottom: 0.2rem;">🍂</div>
+                <div class="preset-label">Leaf Blast</div>
+              </div>
+              <div class="preset-card" data-disease="cercospora">
+                <div style="font-size: 1.5rem; margin-bottom: 0.2rem;">🔴</div>
+                <div class="preset-label">Cercospora Spot</div>
+              </div>
+              <div class="preset-card" data-disease="blight">
+                <div style="font-size: 1.5rem; margin-bottom: 0.2rem;">⚡</div>
+                <div class="preset-label">Leaf Blight</div>
+              </div>
+              <div class="preset-card" data-disease="smut">
+                <div style="font-size: 1.5rem; margin-bottom: 0.2rem;">⚫</div>
+                <div class="preset-label">Millet Smut</div>
+              </div>
+              <div class="preset-card" data-disease="healthy">
+                <div style="font-size: 1.5rem; margin-bottom: 0.2rem;">🌿</div>
+                <div class="preset-label">Healthy Leaf</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Grad-CAM Visualizer Canvas -->
+          <div class="glass-panel" style="margin-top: 1.5rem;" id="visualizerPanel">
+            <div class="panel-header">
+              <h2 class="panel-title" data-i18n="xaiHeader">Explainable AI (Grad-CAM Saliency Overlay)</h2>
+              <span class="badge badge-low">Grad-CAM Layer 4</span>
+            </div>
+
+            <div class="visualizer-container">
+              <canvas id="visCanvas" class="visualizer-canvas" width="500" height="500"></canvas>
+            </div>
+
+            <!-- Heatmap Sliders -->
+            <div class="slider-group">
+              <div class="slider-header">
+                <span data-i18n="opacityLabel">Grad-CAM Heatmap Opacity:</span>
+                <span id="opacityValue">65%</span>
+              </div>
+              <input type="range" id="opacitySlider" class="range-input" min="0" max="1" step="0.05" value="0.65">
+            </div>
+
+            <div class="slider-group">
+              <div class="slider-header">
+                <span data-i18n="thresholdLabel">Lesion Threshold (LSI Filter):</span>
+                <span id="threshValue">35%</span>
+              </div>
+              <input type="range" id="threshSlider" class="range-input" min="0.1" max="0.9" step="0.05" value="0.35">
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Right Column: Results & GenAI Advisory -->
+        <div class="right-col">
+
+          <div class="glass-panel" id="diagnosticResultsPanel">
+            <div class="panel-header">
+              <h2 class="panel-title" data-i18n="diagnosisHeader">Diagnostic Output & Severity Score</h2>
+              <span id="riskBadge" class="badge badge-high">HIGH / CRITICAL</span>
+            </div>
+
+            <h3 id="diseaseName" style="font-size: 1.4rem; color: #ffffff; margin-bottom: 0.2rem;">Leaf Blast (Pyricularia oryzae)</h3>
+            <p id="scientificName" style="font-size: 0.85rem; color: var(--accent-light); font-style: italic; margin-bottom: 1rem;">Pyricularia oryzae Cavara</p>
+
+            <div class="metrics-summary">
+              <div class="metric-box">
+                <div class="metric-val" id="confidenceVal">98.4%</div>
+                <div class="metric-lbl">Model Confidence</div>
+              </div>
+              <div class="metric-box">
+                <div class="metric-val" id="lsiVal">18.4%</div>
+                <div class="metric-lbl">Lesion Severity Index (LSI)</div>
+              </div>
+            </div>
+
+            <p id="pathologySummary" style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1.25rem;">
+              Highly destructive blast fungal disease producing characteristic spindle-shaped lesions with greyish centers on finger millet leaves.
+            </p>
+
+            <!-- GenAI Advisory Protocols -->
+            <div class="advisory-box">
+              <div class="advisory-section-title">
+                🌱 <span data-i18n="organicTitle">Organic & Biological Controls</span>
+              </div>
+              <ul class="advisory-list" id="organicList">
+                <li>Foliar spray of Pseudomonas fluorescens @ 10g/L or 2% Neem oil solution.</li>
+              </ul>
+
+              <div class="advisory-section-title">
+                🧪 <span data-i18n="chemicalTitle">Chemical Fungicide Treatment</span>
+              </div>
+              <ul class="advisory-list" id="chemicalList">
+                <li>Foliar spray of Tricyclazole 75 WP or Carbendazim 50 WP.</li>
+              </ul>
+
+              <div style="font-size: 0.85rem; background: rgba(0,0,0,0.3); padding: 0.75rem; border-radius: 8px; margin-bottom: 0.75rem;">
+                <span data-i18n="dosageTitle" style="color: var(--accent-light); font-weight: 700;">Recommended Dosage:</span>
+                <span id="dosageVal" style="color: #ffffff;">Tricyclazole 75 WP @ 0.6 g/L water</span>
+                <br>
+                <span data-i18n="phiTitle" style="color: var(--accent-light); font-weight: 700;">Pre-Harvest Interval (PHI):</span>
+                <span id="phiVal" style="color: #ffffff;">21 Days</span>
+              </div>
+
+              <div class="advisory-section-title">
+                🚜 <span data-i18n="preventiveTitle">Preventive Agronomy Practices</span>
+              </div>
+              <ul class="advisory-list" id="preventiveList">
+                <li>Avoid excess nitrogenous fertilizer application during humid spells.</li>
+              </ul>
+            </div>
+
+            <!-- GenAI Interactive Copilot Chat -->
+            <div style="margin-top: 1.5rem;">
+              <h4 class="advisory-section-title" data-i18n="genaiHeader">GenAI Agronomic Advisory Copilot</h4>
+              <div class="chat-container">
+                <div class="chat-messages" id="chatMessages">
+                  <div class="chat-bubble bot">
+                    Hello! I am your GenAI Finger Millet Agronomic Copilot. Ask me any question regarding fungicide dosages, soil management, or organic bio-control for your crop!
+                  </div>
+                </div>
+                <div class="chat-input-bar">
+                  <input type="text" id="chatInput" class="chat-input" placeholder="Ask GenAI Copilot about fungicide safety, dosage, soil..." data-i18n="askCopilotPlaceholder">
+                  <button id="sendChatBtn" class="chat-send-btn" data-i18n="sendBtn">Ask</button>
+                </div>
+              </div>
+            </div>
+
+            <button id="downloadReportBtn" class="btn-primary" data-i18n="downloadReportBtn">📄 Download PDF Field Diagnostic Report</button>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- TAB 2: MODEL ARCHITECTURE & XAI -->
+    <section id="tabArchitecture" class="tab-content" style="display: none;">
+      <div class="glass-panel">
+        <h2 class="panel-title" style="margin-bottom: 1rem;">⚡ Hybrid EfficientNet-ViT + GenAI System Architecture</h2>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 1rem;">
+
+          <div class="metric-box" style="padding: 1.5rem;">
+            <h3 style="color: var(--accent-light); margin-bottom: 0.5rem;">1. EfficientNet Feature Extractor</h3>
+            <p style="font-size: 0.88rem; color: var(--text-muted);">
+              Captures fine-grained local textures, lesion boundary edges, and color gradients using MBConv depthwise separable convolutions.
+            </p>
+          </div>
+
+          <div class="metric-box" style="padding: 1.5rem;">
+            <h3 style="color: var(--accent-light); margin-bottom: 0.5rem;">2. Vision Transformer Encoder</h3>
+            <p style="font-size: 0.88rem; color: var(--text-muted);">
+              Uses Multi-Head Self-Attention (MHSA) across 784 spatial sequence tokens to capture long-range contextual dependencies across the leaf canopy.
+            </p>
+          </div>
+
+          <div class="metric-box" style="padding: 1.5rem;">
+            <h3 style="color: var(--accent-light); margin-bottom: 0.5rem;">3. Explainable AI (Grad-CAM)</h3>
+            <p style="font-size: 0.88rem; color: var(--text-muted);">
+              Computes layer-wise target gradients to synthesize visual saliency heatmaps and quantify the exact Lesion Severity Index (LSI %).
+            </p>
+          </div>
+
+          <div class="metric-box" style="padding: 1.5rem;">
+            <h3 style="color: var(--accent-light); margin-bottom: 0.5rem;">4. GenAI Agronomic Engine</h3>
+            <p style="font-size: 0.88rem; color: var(--text-muted);">
+              Combines structured RAG knowledge base lookup with natural language LLM generation to formulate localized organic/chemical treatment directives.
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>

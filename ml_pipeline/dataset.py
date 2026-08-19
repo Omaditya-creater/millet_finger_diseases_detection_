@@ -46,8 +46,10 @@ def generate_synthetic_leaf(class_idx, size=(224, 224)):
     Generates a synthetic finger millet leaf image with characteristic disease symptoms
     for testing, demonstration, and pipeline verification.
     """
-    # Create green leaf background
-    img = Image.new("RGB", size, (34, 139, 34))
+    import random
+    # Create green leaf background with slight random variations
+    bg_color = (random.randint(25, 45), random.randint(120, 150), random.randint(25, 45))
+    img = Image.new("RGB", size, bg_color)
     draw = ImageDraw.Draw(img)
     
     # Draw leaf vein structure
@@ -56,24 +58,34 @@ def generate_synthetic_leaf(class_idx, size=(224, 224)):
         draw.line([(size[0]//2, y), (size[0]//2 - 60, y - 20)], fill=(46, 139, 87), width=2)
         draw.line([(size[0]//2, y), (size[0]//2 + 60, y - 20)], fill=(46, 139, 87), width=2)
         
-    # Inject disease specific patterns
+    # Inject disease specific patterns with randomness
     if class_idx == 1:  # Leaf Blast (Spindle shaped brown/grey lesions)
-        for cx, cy in [(80, 70), (140, 130), (100, 180)]:
+        for _ in range(random.randint(3, 6)):
+            cx = random.randint(60, 160)
+            cy = random.randint(40, 200)
             draw.ellipse([cx-25, cy-10, cx+25, cy+10], fill=(139, 69, 19), outline=(80, 40, 10))
             draw.ellipse([cx-10, cy-4, cx+10, cy+4], fill=(211, 211, 211))
             
     elif class_idx == 2:  # Cercospora Leaf Spot (Circular brown spots)
-        for cx, cy in [(60, 50), (160, 90), (90, 140), (130, 190)]:
+        for _ in range(random.randint(4, 8)):
+            cx = random.randint(40, 180)
+            cy = random.randint(40, 200)
             draw.ellipse([cx-12, cy-12, cx+12, cy+12], fill=(160, 82, 45), outline=(100, 50, 25))
             draw.ellipse([cx-4, cy-4, cx+4, cy+4], fill=(245, 245, 220))
             
     elif class_idx == 3:  # Helminthosporium Blight (Dark streaks)
-        for y in [40, 110, 170]:
-            draw.rectangle([50, y, 170, y+15], fill=(101, 67, 33), outline=(50, 30, 15))
+        for _ in range(random.randint(3, 5)):
+            y = random.randint(30, 180)
+            x_start = random.randint(30, 60)
+            x_end = random.randint(140, 190)
+            draw.rectangle([x_start, y, x_end, y+random.randint(10, 20)], fill=(101, 67, 33), outline=(50, 30, 15))
             
     elif class_idx == 4:  # Smut (Black seed galls)
-        for cx, cy in [(112, 80), (112, 120), (112, 160)]:
-            draw.ellipse([cx-20, cy-20, cx+20, cy+20], fill=(20, 20, 20), outline=(0, 0, 0))
+        for _ in range(random.randint(3, 6)):
+            cx = random.randint(80, 140)
+            cy = random.randint(60, 180)
+            r = random.randint(15, 25)
+            draw.ellipse([cx-r, cy-r, cx+r, cy+r], fill=(20, 20, 20), outline=(0, 0, 0))
             
     return img
 

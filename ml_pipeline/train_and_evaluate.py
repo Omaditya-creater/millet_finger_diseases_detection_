@@ -81,7 +81,7 @@ def main():
     optimizer = torch.optim.AdamW(model.parameters(), lr=1e-3, weight_decay=1e-4)
     
     # 3. Train Model
-    epochs = 2
+    epochs = 10
     print(f"\n[*] Starting Hybrid Model Training for {epochs} epochs...")
     for epoch in range(1, epochs + 1):
         tr_loss, tr_acc = train_one_epoch(model, train_loader, criterion, optimizer, device)

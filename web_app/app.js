@@ -239,27 +239,33 @@ function renderDiagnosticStudio(backendData = null) {
 }
 
 function drawVisualizerCanvas() {
-  const canvas = document.getElementById('visCanvas');
-  if (!canvas) return;
-  const ctx = canvas.getContext('2d');
-  const width = canvas.width;
-  const height = canvas.height;
+  const origCanvas = document.getElementById('origCanvas');
+  const visCanvas = document.getElementById('visCanvas');
+  if (!visCanvas || !origCanvas) return;
+  
+  const origCtx = origCanvas.getContext('2d');
+  const visCtx = visCanvas.getContext('2d');
+  const width = visCanvas.width;
+  const height = visCanvas.height;
 
-  ctx.clearRect(0, 0, width, height);
+  origCtx.clearRect(0, 0, width, height);
+  visCtx.clearRect(0, 0, width, height);
 
   const disease = FINGER_MILLET_DISEASES[currentDiseaseKey];
 
   if (isUploadedImage && uploadedImageElement) {
-    // Draw uploaded leaf
-    ctx.drawImage(uploadedImageElement, 0, 0, width, height);
+    // Draw uploaded leaf on both
+    origCtx.drawImage(uploadedImageElement, 0, 0, width, height);
+    visCtx.drawImage(uploadedImageElement, 0, 0, width, height);
   } else {
-    // Draw procedural finger millet leaf
-    drawProceduralLeaf(ctx, width, height, disease);
+    // Draw procedural finger millet leaf on both
+    drawProceduralLeaf(origCtx, width, height, disease);
+    drawProceduralLeaf(visCtx, width, height, disease);
   }
 
-  // Draw Grad-CAM Heatmap Layer
+  // Draw Grad-CAM Heatmap Layer ONLY on visCanvas
   if (heatmapOpacity > 0 && disease.lesionPoints.length > 0) {
-    drawGradCAMOverlay(ctx, width, height, disease.lesionPoints);
+    drawGradCAMOverlay(visCtx, width, height, disease.lesionPoints);
   }
 }
 
